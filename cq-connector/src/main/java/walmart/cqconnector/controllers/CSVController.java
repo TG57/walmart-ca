@@ -6,6 +6,7 @@ import com.opencsv.bean.CsvToBeanBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,6 +15,7 @@ import walmart.cqconnector.models.CSVObject;
 import walmart.cqconnector.utils.CSVHelper;
 
 @Controller
+@CrossOrigin(origins = "*" )
 @RequestMapping("/upload")
 public class CSVController {
     @PostMapping( "/CSV" )
