@@ -1,7 +1,5 @@
 package walmart.cqconnector.models;
 
-import jdk.nashorn.internal.objects.annotations.Constructor;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
