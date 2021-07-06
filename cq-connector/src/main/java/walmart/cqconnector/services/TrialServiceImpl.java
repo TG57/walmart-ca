@@ -42,8 +42,8 @@ public class TrialServiceImpl implements TrialService {
     @Override
     public boolean sendBatch(List<TrialModel> data) {
 //        TrialRepoImpl customRepo = new TrialRepoImpl();
-        customTrialRepo.insertInBatch(data);
-        return false;
+
+        return customTrialRepo.insertInBatch(data);
     }
 
 }
