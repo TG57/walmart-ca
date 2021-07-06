@@ -14,6 +14,8 @@ import org.springframework.web.multipart.MultipartFile;
 import walmart.cqconnector.models.CSVObject;
 import walmart.cqconnector.utils.CSVHelper;
 
+import java.util.List;
+
 @Controller
 @CrossOrigin(origins = "*" )
 @RequestMapping("/upload")
@@ -25,7 +27,7 @@ public class CSVController {
         int fileId;
         try {
             CSVHelper csvHelper = new CSVHelper();
-            fileId = csvHelper.saveCSVFile(file);
+            fileId = csvHelper.saveCSVFile((List<CSVObject>)csvHelper.extractData(file, CSVObject.class));
         }
         catch (Exception ex){
             return new ResponseEntity("Upload Failed", HttpStatus.EXPECTATION_FAILED);

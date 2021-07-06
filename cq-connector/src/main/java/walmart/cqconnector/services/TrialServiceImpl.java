@@ -26,10 +26,6 @@ public class TrialServiceImpl implements TrialService {
         return data==repository.save(data);
     }
 
-//    public boolean updateDb(TrialModel data){
-//        return false;
-//    }
-
     @Override
     public TrialModel findinDb(Integer id) {
         if(repository.existsById(id)) {
@@ -41,7 +37,6 @@ public class TrialServiceImpl implements TrialService {
 
     @Override
     public boolean sendBatch(List<TrialModel> data) {
-//        TrialRepoImpl customRepo = new TrialRepoImpl();
 
         return customTrialRepo.insertInBatch(data);
     }

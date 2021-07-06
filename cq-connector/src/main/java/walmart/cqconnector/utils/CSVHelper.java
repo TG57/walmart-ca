@@ -1,12 +1,20 @@
 package walmart.cqconnector.utils;
 
+import com.opencsv.CSVWriter;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
+import com.opencsv.bean.StatefulBeanToCsv;
+import com.opencsv.bean.StatefulBeanToCsvBuilder;
+import com.opencsv.exceptions.CsvDataTypeMismatchException;
+import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import org.springframework.web.multipart.MultipartFile;
 import walmart.cqconnector.models.CSVObject;
 import walmart.cqconnector.responses.CustomResponse;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CSVHelper {
@@ -19,8 +27,8 @@ public class CSVHelper {
         try (Reader reader = new BufferedReader(new InputStreamReader(file.getInputStream()))) {
 
             // create csv bean reader
-            CsvToBean<CSVObject> csvToBean = new CsvToBeanBuilder(reader)
-                    .withType(CSVObject.class)
+            CsvToBean<?> csvToBean = new CsvToBeanBuilder(reader)
+                    .withType(targetClass)
                     .withSkipLines(1)
                     .withIgnoreLeadingWhiteSpace(true)
                     .build();
@@ -37,18 +45,31 @@ public class CSVHelper {
         return data;
     }
 
-    public int saveCSVFile(MultipartFile csv){
+    public int saveCSVFile(List<CSVObject> csv) throws CsvRequiredFieldEmptyException, CsvDataTypeMismatchException {
         File file = new File(
                 "src/main/resources/csv_"+ counter +".csv");
 
-        try (OutputStream os = new FileOutputStream(file)) {
-            os.write(csv.getBytes());
-            counter++;
+//        try (OutputStream os = new FileOutputStream(file)) {
+//            os.write(csv.getBytes());
+//        }
+//        catch (IOException e) {
+//            e.printStackTrace();
+//        }
+
+        try (
+                Writer writer = Files.newBufferedWriter(Paths.get("currentCSV.csv"));
+        ) {
+            StatefulBeanToCsv<CSVObject> beanToCsv = new StatefulBeanToCsvBuilder(writer)
+                    .withQuotechar(CSVWriter.NO_QUOTE_CHARACTER)
+                    .build();
+
+
+            beanToCsv.write(csv);
         }
         catch (IOException e) {
             e.printStackTrace();
         }
-        return counter;
+        return 0;
     }
 
 }
