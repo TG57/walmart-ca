@@ -16,7 +16,7 @@ public class TrialModel {
     @Id
     Integer skuId;
     @Column
-    int storeNo;
+    Integer storeNo;
     @Column
     String eligibility;
 

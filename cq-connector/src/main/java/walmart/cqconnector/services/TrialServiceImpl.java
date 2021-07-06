@@ -3,6 +3,7 @@ package walmart.cqconnector.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import walmart.cqconnector.models.TrialModel;
+import walmart.cqconnector.repositories.CustomTrialRepo;
 import walmart.cqconnector.repositories.TrialRepo;
 
 import java.util.List;
@@ -12,6 +13,8 @@ import java.util.Optional;
 public class TrialServiceImpl implements TrialService {
     @Autowired
     TrialRepo repository;
+
+    @Autowired CustomTrialRepo customTrialRepo;
 
     Optional<TrialModel> response;
 
@@ -39,7 +42,7 @@ public class TrialServiceImpl implements TrialService {
     @Override
     public boolean sendBatch(List<TrialModel> data) {
 //        TrialRepoImpl customRepo = new TrialRepoImpl();
-        repository.insert(data);
+        customTrialRepo.insertInBatch(data);
         return false;
     }
 
