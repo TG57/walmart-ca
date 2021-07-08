@@ -21,7 +21,7 @@ public class CustomTrialRepo {
     public Boolean insertInBatch(List<TrialModel> data){
         Boolean ans=true;
         CassandraBatchOperations batchOps = cTemplate.batchOps();
-        //batchOps = cTemplate.batchOps();
+        //batchOps = cTemplate.batchOps()
         for(int i=0;i<data.size();i++) {
             batchOps.insert(data.get(i));
             if((i+1)%200==0 || i==data.size()-1) {

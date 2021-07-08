@@ -8,13 +8,11 @@ import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import org.springframework.web.multipart.MultipartFile;
-import walmart.cqconnector.models.CSVObject;
-import walmart.cqconnector.responses.CustomResponse;
+import walmart.cqconnector.models.TrialModel;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 
 public class CSVHelper {
@@ -45,7 +43,7 @@ public class CSVHelper {
         return data;
     }
 // work in progress for saving CSV data
-    public int saveCSVFile(List<CSVObject> csv) throws CsvRequiredFieldEmptyException, CsvDataTypeMismatchException {
+    public int saveCSVFile(List<?> csv) throws CsvRequiredFieldEmptyException, CsvDataTypeMismatchException {
         File file = new File(
                 "src/main/resources/csv_"+ counter +".csv");
 
@@ -59,12 +57,12 @@ public class CSVHelper {
         try (
                 Writer writer = Files.newBufferedWriter(Paths.get("currentCSV.csv"));
         ) {
-            StatefulBeanToCsv<CSVObject> beanToCsv = new StatefulBeanToCsvBuilder(writer)
+            StatefulBeanToCsv<?> beanToCsv = new StatefulBeanToCsvBuilder(writer)
                     .withQuotechar(CSVWriter.NO_QUOTE_CHARACTER)
                     .build();
 
 
-            beanToCsv.write(csv);
+            //beanToCsv.write(csv); todo
         }
         catch (IOException e) {
             e.printStackTrace();
