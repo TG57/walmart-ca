@@ -20,14 +20,18 @@ public class CustomTrialRepo {
 
     public Boolean insertInBatch(List<TrialModel> data){
         Boolean ans=true;
-        CassandraBatchOperations batchOps = cTemplate.batchOps();
-        //batchOps = cTemplate.batchOps()
-        for(int i=0;i<data.size();i++) {
-            batchOps.insert(data.get(i));
-            if((i+1)%200==0 || i==data.size()-1) {
-                ans = ans & batchOps.execute().wasApplied();
-                batchOps = cTemplate.batchOps();
+        try {
+            CassandraBatchOperations batchOps = cTemplate.batchOps();
+            //batchOps = cTemplate.batchOps()
+            for (int i = 0; i < data.size(); i++) {
+                batchOps.insert(data.get(i));
+                if ((i + 1) % 200 == 0 || i == data.size() - 1) {
+                    ans = ans & batchOps.execute().wasApplied();
+                    batchOps = cTemplate.batchOps();
+                }
             }
+        }catch (Exception e){
+            return false;
         }
         return  ans;
     }
